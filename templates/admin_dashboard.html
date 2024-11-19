@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Transaction History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('/static/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .logo {
+            position: fixed;
+            left: 150px;
+            top: 0;
+            width: 200px;
+            height: 100vh;
+            background: url('/static/logo.png') no-repeat center;
+            background-size: contain;
+            z-index: -1;
+        }
+
+        .form-container {
+            max-width: 900px;
+            width: 100%;
+            padding: 40px;
+            border-radius: 15px;
+            background: linear-gradient(to right, #01013b, #011f88);
+            color: white;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            margin-bottom: 30px;
+            font-size: 36px;
+        }
+
+        .table-container {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            color: white;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        th {
+            background-color: rgba(255, 255, 255, 0.1);
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .alert-container {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            z-index: 1000;
+        }
+
+        .alert {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .alert-success {
+            background-color: #dff0d8;
+            color: #3c763d;
+        }
+
+        .alert-danger {
+            background-color: #f2dede;
+            color: #a94442;
+        }
+
+        .alert-warning {
+            background-color: #fcf8e3;
+            color: #8a6d3b;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 20px;
+            border-radius: 10px;
+            background-color: #f55d58;
+            border: none;
+            font-size: 20px;
+            color: black;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            color: white;
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="alert-container">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <div class="logo"></div>
+    <div class="form-container">
+        <h2>Admin - All Transactions</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>User VID</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Date & Time </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction, username, vid in transactions %}
+                    <tr>
+                        <td>{{ vid }}</td>
+                        <td>{{ transaction.description }}</td>
+                        <td>{{ transaction.amount }}</td>
+                        <td>
+                            {% if transaction.timestamp %}
+                                {{ (transaction.timestamp + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S') }} IST
+                            {% else %}
+                                No timestamp available
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <a href="{{ url_for('logout') }}" class="btn">Log Out</a>
+    </div>
+</body>
+</html>

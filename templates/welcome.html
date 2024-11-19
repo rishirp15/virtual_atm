@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Online ATM</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('/static/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            margin: 0;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-left: 150px;
+        }
+
+        .card {
+            max-width: 900px;
+            height: 50vh;
+            padding: 50px;
+            border-radius: 15px;
+            background: linear-gradient(to right, #01013b, #011f88);
+            color: white;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo {
+            width: 210px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            margin: 10px 0;
+            font-size: 30px;
+        }
+
+        p {
+            margin-bottom: 25px;
+            font-size: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 20px;
+            color: #fff;
+            background-color: #01112f;
+            border: none;
+            border-radius: 10px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #043985;
+        }
+
+        .flash-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #333;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .alert-container {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            z-index: 1000;
+        }
+
+        .alert {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .alert-success {
+            background-color: #dff0d8;
+            color: #3c763d;
+        }
+
+        .alert-info {
+            background-color: #f2dede;
+            color: #a94442;
+        }
+
+        .alert-warning {
+            background-color: #fcf8e3;
+            color: #8a6d3b;
+        }
+
+    </style>
+</head>
+<body>
+    <body>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="alert-container">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+    <div class="container">
+        <div class="card">
+            <img src="/static/logo.png" alt="Logo" class="logo">
+            <h2>Welcome to V ATM</h2>
+            <p>Your secure banking solution.</p>
+            <a href="/login" class="button">Login to Your Account</a>
+        </div>
+    </div>
+</body>
+</html>

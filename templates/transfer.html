@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Transfer Money</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('/static/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            height: 100vh;
+        }
+        .flash-message {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            max-width: 400px;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            width: 100%;
+            position: relative;
+        }
+        .logo {
+            position: fixed;
+            left: 150px;
+            top: 0;
+            width: 200px;
+            height: 100vh;
+            background: url('/static/logo.png') no-repeat center;
+            background-size: contain;
+            z-index: -1;
+        }
+        .card {
+            max-width: 500px;
+            padding: 50px;
+            border-radius: 15px;
+            background: linear-gradient(to right, #01013b, #011f88);
+            color: white;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        h2 {
+            margin-bottom: 30px;
+            font-size: 36px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .input-group {
+            width: 100%;
+        }
+        .input-group i {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ffffff;
+            font-size: 20px;
+            z-index: 1;
+        }
+        .form-control {
+            border-radius: 10px;
+            padding: 10px 40px;
+            border: 2px solid whitesmoke;
+            font-size: 18px;
+            height: 50px;
+            background-color: transparent;
+            color: #ffffff;
+            box-shadow: none;
+        }
+        .form-control:focus {
+            outline: none;
+            background-color: transparent;
+            color: #ffffff;
+            border-color: #50b6ed;
+        }
+        .form-control::placeholder {
+            color: #50b6ed;
+        }
+        .btn-primary {
+            background-color: #022057;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 30px;
+            font-size: 20px;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #043985;
+        }
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #ffffff;
+            cursor: pointer;
+        }
+        .btn-back {
+            display: inline-block;
+            padding: 15px 20px;
+            border-radius: 10px;
+            background-color: #022057;
+            border: none;
+            font-size: 20px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        .btn-back:hover {
+            text-decoration: none;
+            color: lightskyblue;
+            background-color: #043985;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo"></div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-message">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="container">
+        <div class="card">
+            <h2>Transfer Money</h2>
+            <form action="{{ url_for('transfer') }}" method="POST">
+                <div class="form-group input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" class="form-control" id="vid" name="vid" placeholder="Enter Receiver's VID" required>
+                </div>
+                <div class="form-group input-group">
+                    <span style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 25px; color: #ffffff;">₹</span>
+                    <input type="number" class="form-control" id="amount" name="amount" placeholder="Enter Amount" required>
+                </div>
+                <div class="form-group input-group">
+                    <i class="fas fa-key"></i>
+                    <input type="password" class="form-control" id="pin" name="pin" placeholder="Enter Transaction PIN" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Transfer</button>
+            </form>
+            <a href="{{ url_for('dashboard') }}" class="btn-back">Back to Dashboard</a>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

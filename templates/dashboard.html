@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('/static/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #14a7eb;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .dashboard-container {
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+            border-radius: 15px;
+            background: linear-gradient(to right, #01013b, #011f88);
+            color: white;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 36px;
+        }
+
+        h3 {
+            color: #14a7eb;
+        }
+
+        p {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: rgb(6, 234, 250)
+        }
+
+        .dashboard-options {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 20px;
+            border-radius: 10px;
+            background-color: #022057;
+            border: none;
+            font-size: 20px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            color: lightskyblue;
+            background-color: #043985;
+        }
+
+        .btn-logout {
+            color: black;
+            background-color: #f55d58;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-logout:hover {
+            color: white;
+            background-color: #c9302c;
+        }
+
+        .alert-container {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            z-index: 1000;
+        }
+
+        .logo {
+            position: fixed;
+            left: 150px;
+            top: 0;
+            width: 200px;
+            height: 100vh;
+            background: url('/static/logo.png') no-repeat center;
+            background-size: contain;
+            z-index: -1;
+        }
+
+        .alert {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .alert-success {
+            background-color: #dff0d8;
+            color: #3c763d;
+        }
+
+        .alert-danger {
+            background-color: #f2dede;
+            color: #a94442;
+        }
+
+        .alert-warning {
+            background-color: #fcf8e3;
+            color: #8a6d3b;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo"></div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="alert-container">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <div class="dashboard-container">
+        <h2>Welcome, {{ username }}!</h2>
+        <h3>V_Id: {{ vid }}</h3>
+        <br>
+        <p>Your Account Balance: Rs. {{ balance }}</p>
+        <h4>What would you like to do?</h4>
+        <p></p>
+        <div class="dashboard-options">
+            <a href="{{ url_for('withdraw') }}" class="btn">Withdraw</a>
+            <a href="{{ url_for('deposit') }}" class="btn">Deposit</a>
+            <a href="{{ url_for('transfer') }}" class="btn">Transfer Funds</a>
+            <a href="{{ url_for('transaction_history') }}" class="btn">View History</a>
+            <a href="{{ url_for('logout') }}" class="btn btn-logout">Logout</a>
+        </div>
+    </div>
+</body>
+</html>
